@@ -24,7 +24,7 @@ import (
 )
 
 // Only this version is supported
-const supportedProtocolVersion = 7
+const supportedProtocolVersion = 6
 
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
@@ -152,7 +152,7 @@ func onOpen(conn *websocket.Conn, r *http.Request, sessionID string, app *app.Ap
 	switch {
 	case strings.TrimSpace(strProtocol) == "":
 		return noProtocolVersionSupplied
-	case protocol != supportedProtocolVersion:
+	case protocol < supportedProtocolVersion:
 		return unsupportedProtocolVersion
 	case !app.Enabled:
 		return applicationDisabled
